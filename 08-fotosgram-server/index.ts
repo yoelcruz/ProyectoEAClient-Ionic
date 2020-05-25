@@ -1,4 +1,5 @@
-import Server from "./classes/server";
+import express from 'express';
+import { Server } from 'http';
 import mongoose from 'mongoose';
 
 import cors from 'cors';
@@ -8,36 +9,53 @@ import fileUpload from 'express-fileupload';
 
 import userRoutes from "./routes/usuario";
 import postRoutes from './routes/post';
+import socketIO  from 'socket.io';
+
+const app = express();
+const server = new Server(app);
 
 
-const server = new Server();
+// IO = esta es la comunicacion del backend
+/* io.origins(['http://192.168.1.17:8100']);
+import './chat/sockets/socket'; */
 
-
+app.use( cors());
 // Body parser
-server.app.use( bodyParser.urlencoded({ extended: true }) );
-server.app.use( bodyParser.json() );
+app.use( bodyParser.urlencoded({ extended: true }) );
+app.use( bodyParser.json() );
 
 // FileUpload
-server.app.use( fileUpload() );
+app.use( fileUpload() );
 
 // Configurar CORS
-server.app.use( fileUpload({ useTempFiles: true }) );
+app.use( fileUpload({ useTempFiles: true }) );
 
 // Rutas de mi app
-server.app.use('/user', userRoutes );
-server.app.use('/posts', postRoutes );
+app.use('/user', userRoutes );
+app.use('/posts', postRoutes );
 
 
 // Conectar DB
-mongoose.connect('mongodb://localhost:27017/fotosgram', 
+mongoose.connect('mongodb://localhost:27017/proyectoIonic', 
                 {  useNewUrlParser: true, useCreateIndex: true }, ( err ) => {
 
     if ( err ) throw err;
 
     console.log('Base de datos ONLINE');
-})
+});
+
+export const io = socketIO.listen(server);
+io.on('connection', (client) => {
+
+    console.log('connection132123132132123');
+    client.on('entrarChat', (data: any, callback) => {
+        console.log('entrar chat', data);
+    });
+});
+
 
 // Levantar express
-server.start( () => {
-    console.log(`Servidor corriendo en el puerto ${ server.port }`);
+server.listen( 3000, () => {
+    console.log(`Servidor corriendo en el puerto 3000`);
 });
+

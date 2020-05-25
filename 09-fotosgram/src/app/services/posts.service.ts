@@ -1,7 +1,7 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { RespuestaPosts, Post } from '../interfaces/interfaces';
+import { RespuestaPosts, Post, RespuestaAñadirUsuarioPost, RespuestaPost } from '../interfaces/interfaces';
 import { UsuarioService } from './usuario.service';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
 
@@ -19,6 +19,12 @@ export class PostsService {
   constructor( private http: HttpClient,
                private usuarioService: UsuarioService,
                private fileTransfer: FileTransfer ) { }
+
+
+  getPost( idPost: string) {
+
+    return this.http.get<RespuestaAñadirUsuarioPost>(`${ URL }/posts/postById/${ idPost }`);
+  }
 
   getPosts( pull: boolean = false ) {
 
@@ -68,6 +74,16 @@ export class PostsService {
                 }).catch( err => {
                   console.log('error en carga', err);
                 });
+  }
+
+  addUser( post: Post ) {
+
+    const headers = new HttpHeaders({
+      'x-token': this.usuarioService.token
+    });
+
+    return this.http.post<RespuestaAñadirUsuarioPost>(`${ URL }/posts/${ post._id }/addUser`, {},
+            { headers });
   }
 
 }

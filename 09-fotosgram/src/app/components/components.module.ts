@@ -6,6 +6,7 @@ import { IonicModule } from '@ionic/angular';
 import { PipesModule } from '../pipes/pipes.module';
 import { AvatarSelectorComponent } from './avatar-selector/avatar-selector.component';
 import { MapaComponent } from './mapa/mapa.component';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -23,7 +24,8 @@ import { MapaComponent } from './mapa/mapa.component';
   imports: [
     CommonModule,
     IonicModule,
-    PipesModule
+    PipesModule,
+    RouterModule
   ]
 })
 export class ComponentsModule { }

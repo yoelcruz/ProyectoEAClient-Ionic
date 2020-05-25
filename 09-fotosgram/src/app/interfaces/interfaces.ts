@@ -4,6 +4,10 @@ export interface RespuestaPosts {
   pagina: number;
   posts: Post[];
 }
+export interface RespuestaPost {
+  ok: boolean;
+  post: Post;
+}
 
 export interface Post {
   imgs?: string[];
@@ -12,6 +16,7 @@ export interface Post {
   coords?: string;
   usuario?: Usuario;
   created?: string;
+  usuarios?: string[];
 }
 
 export interface Usuario {
@@ -20,4 +25,9 @@ export interface Usuario {
   nombre?: string;
   email?: string;
   password?: string;
+}
+
+export interface RespuestaAñadirUsuarioPost {
+  ok: boolean;
+  post: Post;
 }

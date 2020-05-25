@@ -34,6 +34,53 @@ postRoutes.get('/', async (req: any, res: Response) => {
 
 });
 
+// Añadir usuarios al POST
+postRoutes.post('/:postId/addUser', [ verificaToken ], async(req: any, res: Response) => {
+
+    const postId: string= req.params.postId;
+    const userId: string= req.usuario._id;
+    
+
+    Post.findById(postId).then( async postDB => {
+        if(!postDB){
+            return res.status(400).json({
+                ok: false,
+                mensaje: 'No se ha encontrado ningún post'
+            });
+        }
+
+        if(!postDB.usuarios.includes(userId)){
+            postDB.usuarios.push(userId);
+            await postDB.save();
+        }
+
+        res.json({
+            ok: true,
+            post: postDB
+        });            
+    });
+});
+
+//Obtener post by id
+postRoutes.get('/postById/:postId', (req: any, res: Response) => {
+    const postId: string= req.params.postId;
+
+    Post.findById(postId).then( async postDB => {
+        if(!postDB){
+            return res.status(400).json({
+                ok: false,
+                mensaje: 'No se ha encontrado ningún post'
+            });
+        }
+        await postDB.populate('usuarios').execPopulate();
+
+        res.json({
+            ok: true,
+            post: postDB
+        });            
+    });
+
+});
 
 // Crear POST
 postRoutes.post('/', [ verificaToken ], (req: any, res: Response) => {

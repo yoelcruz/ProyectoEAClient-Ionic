@@ -1,4 +1,5 @@
 import { Schema, Document, model } from 'mongoose';
+import { Usuario } from './usuario.model';
 
 const postSchema = new Schema({
 
@@ -18,7 +19,11 @@ const postSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Usuario',
         required: [true, 'Debe de existir una referencia a un usuario']
-    }
+    },
+    usuarios: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Usuario'
+    }]
 });
 
 //Tiene que ser una funcion normal, (no puede ser una función de flecha)
@@ -33,6 +38,7 @@ interface IPost extends Document {
     img: string[];
     coords: string;
     usuario: string;
+    usuarios: string[];
 }
 
 export const Post = model<IPost>('Post', postSchema);

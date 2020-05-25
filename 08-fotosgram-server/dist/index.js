@@ -1,5 +1,5 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
+var __importDefault = (this && this.__importDefault) || function(mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -21,7 +21,7 @@ server.app.use(express_fileupload_1.default({ useTempFiles: true }));
 server.app.use('/user', usuario_1.default);
 server.app.use('/posts', post_1.default);
 // Conectar DB
-mongoose_1.default.connect('mongodb://localhost:27017/fotosgram', { useNewUrlParser: true, useCreateIndex: true }, (err) => {
+mongoose_1.default.connect('mongodb://localhost:27017/proyectoIonic', { useNewUrlParser: true, useCreateIndex: true }, (err) => {
     if (err)
         throw err;
     console.log('Base de datos ONLINE');
