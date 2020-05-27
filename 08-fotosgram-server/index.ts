@@ -45,10 +45,12 @@ mongoose.connect('mongodb://localhost:27017/proyectoIonic',
 });
 
 export const io = socketIO.listen(server);
-io.on('connection', (client) => {
 
-    console.log('connection132123132132123');
-    client.on('entrarChat', (data: any, callback) => {
+io.on('connection', (client) => {
+    console.log('client', client);
+
+    console.log('connection');
+    client.on('entrarChat', (data: any) => {
         console.log('entrar chat', data);
     });
 });

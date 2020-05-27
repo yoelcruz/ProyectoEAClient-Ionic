@@ -12,45 +12,44 @@ export class PostPage implements OnInit {
   constructor(private socket: Socket) { }
 
   ngOnInit() {
-    this.socket.connect();
+    //this.socket.connect();
 
-    this.socket.on('connect', () => {
+
       console.log('Conectado al servidor');
 
       const usuario = { nombre: 'Yoel', sala: 'chat' };
-      this.socket.emit('entrarChat', usuario,  (resp) => {
+      this.socket.emit('entrarChat', usuario);
        /*  renderizarUsuarios(resp); */
-        console.log('resp', resp);
+      console.log('emit realizado');
+
+
+
+      // escuchar
+      this.socket.on('disconnect', () => {
+
+        console.log('Perdimos conexión con el servidor');
+
       });
 
-    });
+      // Escuchar información
+      this.socket.on('crearMensaje', (mensaje) => {
+        /* renderizarMensajes(mensaje, false); */
+        console.log('mensaje', mensaje);
+      });
 
-    // escuchar
-    this.socket.on('disconnect', () => {
+      // Escuchar cambios de usuarios
+      // cuando un usuario entra o sale del chat
+      this.socket.on('listaPersona', (personas) => {
+        /* renderizarUsuarios(personas); */
+        console.log('personas', personas);
+      });
 
-      console.log('Perdimos conexión con el servidor');
+      // Mensajes privados
+      this.socket.on('mensajePrivado', (mensaje) => {
 
-    });
+        console.log('Mensaje Privado:', mensaje);
 
-    // Escuchar información
-    this.socket.on('crearMensaje', (mensaje) => {
-      /* renderizarMensajes(mensaje, false); */
-      console.log('mensaje', mensaje);
-    });
-
-    // Escuchar cambios de usuarios
-    // cuando un usuario entra o sale del chat
-    this.socket.on('listaPersona', (personas) => {
-      /* renderizarUsuarios(personas); */
-      console.log('personas', personas);
-    });
-
-    // Mensajes privados
-    this.socket.on('mensajePrivado', (mensaje) => {
-
-      console.log('Mensaje Privado:', mensaje);
-
-    });
+      });
   }
 
 

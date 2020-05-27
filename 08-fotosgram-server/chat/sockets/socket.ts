@@ -1,4 +1,4 @@
-import { io } from '../../index';
+/* import { io } from '../../index';
 import { UserManager } from '../user-manager';
 import { MessageManager } from '../message-manager';
 
@@ -14,6 +14,7 @@ type ChatMessage = {
 io.on('connection', (client) => {
 
     client.on('entrarChat', (data: ChatRoom, callback) => {
+    
 
         if (!data.nombre || !data.sala) {
             return callback({
@@ -61,4 +62,4 @@ io.on('connection', (client) => {
 
 
 
-});
+}); */

@@ -19,7 +19,7 @@ import { FileTransfer } from '@ionic-native/file-transfer/ngx';
 
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 
-const config: SocketIoConfig = { url: 'http://127.0.0.1:3000', options: {} };
+const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
 
 @NgModule({
   declarations: [AppComponent],
