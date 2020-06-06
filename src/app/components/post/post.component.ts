@@ -24,13 +24,19 @@ export class PostComponent implements OnInit {
 
   addUserToPost(){
     this.postService.addUser(this.post).subscribe((resp) => {
-      console.log(resp);
+      console.log('addUserToPost', resp.post);
     });
   }
+
   getUserToPost(){
     this.postService.getPost(this.post._id).subscribe((resp) => {
-      console.log('get', resp.post.usuarios);
+      console.log('getUserToPost', resp.post.usuarios);
     });
+  }
+
+  getIdPost(){
+    console.log('postId', this.post._id);
+    return this.post._id;
   }
 
 }

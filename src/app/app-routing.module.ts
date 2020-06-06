@@ -21,7 +21,15 @@ const routes: Routes = [
     path: '',
     pathMatch: 'full',
     redirectTo: 'main/tabs/tab1'
-  }
+  },
+  {
+    path: 'login-google-facebook',
+    loadChildren: () => import('./pages/login-google-facebook/login-google-facebook.module').then( m => m.LoginGoogleFacebookPageModule)
+  },
+  /* {
+    path: 'app-component',
+    loadChildren: () => import('./app.module').then( m => m.AppModule)
+  } */
 ];
 @NgModule({
   imports: [

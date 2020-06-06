@@ -5,7 +5,13 @@ import { environment } from 'src/environments/environment';
 import { Usuario } from '../interfaces/interfaces';
 import { NavController } from '@ionic/angular';
 
+//Google
+import { AngularFireAuth } from 'angularfire2/auth';
+import * as firebase from 'firebase/app';
+
 const URL = environment.url;
+
+export type LoginProvider = 'google' | 'facebook';
 
 @Injectable({
   providedIn: 'root'
@@ -15,9 +21,36 @@ export class UsuarioService {
   token: string = null;
   private usuario: Usuario = {};
 
+  public usuarioGoogle: any = {};
+
   constructor( private http: HttpClient,
                private storage: Storage,
-               private navCtrl: NavController ) { }
+               private navCtrl: NavController,
+               public afAuth: AngularFireAuth ) {
+
+    this.afAuth.authState.subscribe( user => {
+
+      console.log( 'Estado del usuario: ', user );
+
+      this.usuarioGoogle.nombre = user.displayName;
+      this.usuarioGoogle.uid = user.uid;
+      this.usuarioGoogle.email = user.email;
+      this.usuarioGoogle.foto = user.photoURL; //¿?¿??¿?¿
+
+    });
+  }
+
+  loginFireBase( proveedor: LoginProvider ) {
+    const loginMapProvider: { [ key in LoginProvider ]: firebase.auth.AuthProvider } = {
+      facebook: new firebase.auth.FacebookAuthProvider(),
+      google: new firebase.auth.GoogleAuthProvider()
+    };
+
+    this.afAuth.auth.signInWithPopup( loginMapProvider[proveedor] );
+  }
+  logoutGoogle() {
+    this.afAuth.auth.signOut();
+  }
 
   login( email: string, password: string ) {
 

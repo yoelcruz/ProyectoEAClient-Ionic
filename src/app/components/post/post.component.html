@@ -32,7 +32,7 @@
     <!--  -->
 
     <ion-item lines="none">
-        <ion-icon slot="start" name="chatbubble-ellipses-outline" [routerLink]="['/post', post._id]"></ion-icon>
+        <ion-icon slot="start" name="chatbubble-ellipses-outline" [routerLink]="['/post', post._id]" (click)="getIdPost()"></ion-icon>
 
         <ion-icon slot="end" name="add-circle-outline" (click)="addUserToPost(post)" (click)="getUserToPost()"></ion-icon>
     </ion-item>

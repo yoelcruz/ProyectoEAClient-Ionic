@@ -27,8 +27,8 @@ export class Tab2Page {
   constructor( private postsService: PostsService,
                private route: Router,
                private geolocation: Geolocation,
-               private camera: Camera,
-               private cameraOptions: CameraOptions ) { }
+               /* private camera: Camera,
+               private cameraOptions: CameraOptions */ ) { }
 
   async crearPost() {
 
@@ -73,7 +73,7 @@ export class Tab2Page {
      });
   }
 
-  camara() {
+  /* camara() {
 
     const options: CameraOptions = {
       quality: 60,
@@ -98,9 +98,9 @@ export class Tab2Page {
     };
 
     this.procesarImagen( options );
-  }
+  } */
 
-  procesarImagen( options: CameraOptions) {
+  /* procesarImagen( options: CameraOptions) {
 
     this.camera.getPicture(options).then( ( imageData ) => {
       // imageData is either a base64 encoded string or a file URI
@@ -114,6 +114,6 @@ export class Tab2Page {
     }, (err) => {
      // Handle error
     });
-  }
+  } */
 
 }

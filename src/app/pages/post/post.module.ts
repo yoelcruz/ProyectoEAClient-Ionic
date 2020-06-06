@@ -8,6 +8,7 @@ import { PostPageRoutingModule } from './post-routing.module';
 
 import { PostPage } from './post.page';
 
+
 /* import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 
 const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} }; */
@@ -17,7 +18,7 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} }; */
     CommonModule,
     FormsModule,
     IonicModule,
-    PostPageRoutingModule,
+    PostPageRoutingModule
     /* SocketIoModule.forRoot(config) */
   ],
   declarations: [PostPage]
