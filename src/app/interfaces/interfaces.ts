@@ -25,6 +25,7 @@ export interface Usuario {
   nombre?: string;
   email?: string;
   password?: string;
+  firebase?: string;
 }
 
 export interface RespuestaAñadirUsuarioPost {

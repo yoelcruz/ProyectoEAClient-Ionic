@@ -23,6 +23,7 @@ export class Tab3Page implements OnInit {
     this.usuario = this.usuarioService.getUsuario();
 
     console.log( this.usuario );
+    console.log( this.usuario.avatar);
   }
 
   async actualizar( fActualziar: NgForm ) {

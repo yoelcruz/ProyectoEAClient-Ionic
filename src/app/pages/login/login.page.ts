@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { IonSlides, NavController } from '@ionic/angular';
-import { UsuarioService } from 'src/app/services/usuario.service';
+import { UsuarioService, LoginProvider } from 'src/app/services/usuario.service';
 import { UiServiceService } from 'src/app/services/ui-service.service';
 import { Usuario } from 'src/app/interfaces/interfaces';
+import * as firebase from 'firebase/app';
 
 @Component({
   selector: 'app-login',
@@ -33,6 +34,43 @@ export class LoginPage implements OnInit {
   ngOnInit() {
 
     /* this.slides.lockSwipes( true ); */
+  }
+
+  async ingresar( proveedor: LoginProvider ) {
+    console.log( 'ingresar', proveedor );
+
+    const credential = await this.usuarioService.loginFireBase( proveedor );
+    const user = credential.user;
+    //console.log('user ingresar', user);
+    const valido = await this.usuarioService.generateTokenForFirebase( user.email );
+    //console.log('valido ingresar', valido);
+    if (valido) {
+      // navegar al tabs
+      this.navCtrl.navigateRoot( '/main/tabs/tab1', { animated: true } );
+    }else {
+      this.uiService.alertaInformativa('No estás registrado con este correo. Regrístate antes, para poder entrar');
+    }
+
+  }
+
+  async firebaseRegister( provider: LoginProvider ) {
+    const {user: firebaseUser} = await this.usuarioService.loginFireBase( provider );
+
+    const user: Usuario = {
+      nombre: firebaseUser.displayName,
+      email: firebaseUser.email,
+      avatar: firebaseUser.photoURL,
+      firebase: provider,
+      password: '1234'
+    };
+
+    const valido = await this.usuarioService.registro ( user );
+
+    if (valido) {
+      this.navCtrl.navigateRoot( '/main/tabs/tab1', { animated: true } );
+    }else {
+      this.uiService.alertaInformativa('Ya se han registrado con este correo electrónico.');
+    }
   }
 
   async login( fLogin: NgForm ) {

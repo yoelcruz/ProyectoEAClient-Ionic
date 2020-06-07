@@ -26,30 +26,42 @@ export class UsuarioService {
   constructor( private http: HttpClient,
                private storage: Storage,
                private navCtrl: NavController,
-               public afAuth: AngularFireAuth ) {
-
-    this.afAuth.authState.subscribe( user => {
-
-      console.log( 'Estado del usuario: ', user );
-
-      this.usuarioGoogle.nombre = user.displayName;
-      this.usuarioGoogle.uid = user.uid;
-      this.usuarioGoogle.email = user.email;
-      this.usuarioGoogle.foto = user.photoURL; //¿?¿??¿?¿
-
-    });
-  }
+               public afAuth: AngularFireAuth ) { }
 
   loginFireBase( proveedor: LoginProvider ) {
+    console.log('loginfirebase', proveedor);
     const loginMapProvider: { [ key in LoginProvider ]: firebase.auth.AuthProvider } = {
       facebook: new firebase.auth.FacebookAuthProvider(),
       google: new firebase.auth.GoogleAuthProvider()
     };
 
-    this.afAuth.auth.signInWithPopup( loginMapProvider[proveedor] );
+    return this.afAuth.auth.signInWithPopup( loginMapProvider[proveedor] );
+
   }
+
   logoutGoogle() {
     this.afAuth.auth.signOut();
+  }
+
+  generateTokenForFirebase( email: string) {
+
+    const data = { email };
+
+    return new Promise( resolve => {
+
+        this.http.post(`${ URL }/user/firebase-login`, data).subscribe(  async resp => {
+            //console.log('respuesta firebase-login', resp);
+
+            if ( resp['ok'] ) {
+              await this.guardarToken( resp['token'] );
+              resolve(true);
+            } else {
+              this.token = null;
+              this.storage.clear();
+              resolve(false);
+            }
+        });
+    });
   }
 
   login( email: string, password: string ) {
@@ -59,7 +71,7 @@ export class UsuarioService {
     return new Promise( resolve => {
 
         this.http.post(`${ URL }/user/login`, data).subscribe(  async resp => {
-            console.log(resp);
+            //console.log(resp);
 
             if ( resp['ok'] ) {
               await this.guardarToken( resp['token'] );
@@ -78,12 +90,13 @@ export class UsuarioService {
     this.usuario = null;
     this.storage.clear();
     this.navCtrl.navigateRoot('/login', { animated: true });
+    this.afAuth.auth.signOut();
   }
 
   registro( usuario: Usuario ) {
       return new Promise( resolve => {
           this.http.post(`${ URL }/user/create`, usuario).subscribe( async resp => {
-              console.log(resp);
+              //console.log('resp de registro', resp);
 
               if ( resp['ok'] ) {
                 await this.guardarToken( resp['token'] );
@@ -123,7 +136,7 @@ export class UsuarioService {
   async validaToken(): Promise<boolean> {
 
     await this.cargarToken();
-
+    console.log('validateToken', this.token);
     if (!this.token ) {
       this.navCtrl.navigateRoot('/login');
       return Promise.resolve(false);
@@ -137,7 +150,7 @@ export class UsuarioService {
 
       this.http.get(`${ URL }/user/`, { headers })
         .subscribe( resp => {
-
+          console.log('validatetoken resp', resp);
           if ( resp['ok'] ) {
             this.usuario = resp['usuario'];
             resolve(true);
