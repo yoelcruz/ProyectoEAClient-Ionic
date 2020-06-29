@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Post } from 'src/app/interfaces/interfaces';
+import { Post, Usuario } from 'src/app/interfaces/interfaces';
 import { PostsService } from '../../services/posts.service';
+import { UsuarioService } from 'src/app/services/usuario.service';
+import { UiServiceService } from 'src/app/services/ui-service.service';
 
 @Component({
   selector: 'app-post',
@@ -10,6 +12,8 @@ import { PostsService } from '../../services/posts.service';
 export class PostComponent implements OnInit {
 
   @Input() post: Post = {};
+  public numUserInPost: number;
+  public alreadyAdded = false;
 
   slideSoloOpts = {
     allowSlideNext: false,
@@ -17,14 +21,34 @@ export class PostComponent implements OnInit {
   };
 
   constructor(
-    public postService: PostsService
+    private postService: PostsService,
+    private userService: UsuarioService,
+    private uiService: UiServiceService
   ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.updateCounter(this.post);
+  }
+
+  alertainformativa(){
+    this.uiService.alertaInformativa('Si no te has añadido a esta experiencia no puedes acceder a su chat');
+  }
+
+  updateCounter(post: Post){
+    const user = this.userService.getUsuario();
+    this.numUserInPost = post.usuarios.length;
+    this.alreadyAdded = post.usuarios.includes(user._id);
+  }
 
   addUserToPost(){
     this.postService.addUser(this.post).subscribe((resp) => {
-      console.log('addUserToPost', resp.post);
+      this.updateCounter(resp.post);
+    });
+  }
+
+  deleteUserToPost(){
+    this.postService.deleteUser(this.post).subscribe((resp) => {
+      this.updateCounter(resp.post);
     });
   }
 

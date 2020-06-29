@@ -36,16 +36,25 @@
 
                 <ion-list>
 
-                    <ion-item>
-                        <ion-label>Email</ion-label>
+                    <!-- <ion-item>
+                        <ion-label>Email {{ usuario.email }}</ion-label>
                         <ion-input name="email" type="email" [(ngModel)]="usuario.email" required></ion-input>
-                    </ion-item>
+                    </ion-item> -->
 
                     <ion-item>
                         <ion-label>Nombre</ion-label>
                         <ion-input name="nombre" type="text" [(ngModel)]="usuario.nombre" required></ion-input>
                     </ion-item>
 
+                    <!-- <ion-item>
+                        <h2 slot="start">Email</h2>
+                        <ion-label>{{ usuario.email }}</ion-label>
+                    </ion-item>
+
+                    <ion-item>
+                        <h2 slot="start">Nombre</h2>
+                        <ion-input name="nombre" type="text" [(ngModel)]="usuario.nombre" required></ion-input>
+                    </ion-item> -->
 
                 </ion-list>
             </ion-col>

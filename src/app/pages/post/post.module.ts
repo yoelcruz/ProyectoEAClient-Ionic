@@ -6,10 +6,13 @@ import { IonicModule } from '@ionic/angular';
 
 import { PostPageRoutingModule } from './post-routing.module';
 
-import { PostPage } from './post.page';
+import { PostPage } from './post-chat/post.page';
+import { PostUsersPage } from './post-users/post-users.page';
+import { ModalPage } from './post-chat/modal/modal.page';
 
 
 /* import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { PostUsersPage } from './post-users/post-users.page';
 
 const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} }; */
 
@@ -21,6 +24,10 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} }; */
     PostPageRoutingModule
     /* SocketIoModule.forRoot(config) */
   ],
-  declarations: [PostPage]
+  declarations: [
+    PostPage,
+    PostUsersPage,
+    ModalPage
+  ]
 })
 export class PostPageModule {}

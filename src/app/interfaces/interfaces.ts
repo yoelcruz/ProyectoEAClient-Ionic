@@ -28,7 +28,29 @@ export interface Usuario {
   firebase?: string;
 }
 
+export interface ListaUsuario {
+  id: string;
+  nombre: string;
+  sala: string;
+}
+
+export interface UsuarioMensaje {
+  nombreUsuario: string;
+  mensaje: string;
+  sala: string;
+}
+
 export interface RespuestaAñadirUsuarioPost {
   ok: boolean;
-  post: Post;
+  post: PostConUsuarios;
+}
+
+export interface PostConUsuarios {
+  imgs?: string[];
+  _id?: string;
+  mensaje?: string;
+  coords?: string;
+  usuario?: Usuario;
+  created?: string;
+  usuarios?: Usuario[];
 }

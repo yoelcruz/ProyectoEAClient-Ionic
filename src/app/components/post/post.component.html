@@ -32,9 +32,14 @@
     <!--  -->
 
     <ion-item lines="none">
-        <ion-icon slot="start" name="chatbubble-ellipses-outline" [routerLink]="['/post', post._id]" (click)="getIdPost()"></ion-icon>
+        <ion-icon *ngIf="!alreadyAdded" class="no-focus-outline" slot="start" name="chatbubble-ellipses-outline" (click)="alertainformativa()"></ion-icon>
+        <ion-icon *ngIf="alreadyAdded" class="no-focus-outline" slot="start" name="chatbubble-ellipses-outline" [routerLink]="['/post', post._id]"></ion-icon>
 
-        <ion-icon slot="end" name="add-circle-outline" (click)="addUserToPost(post)" (click)="getUserToPost()"></ion-icon>
+        <ion-icon *ngIf="!alreadyAdded" class="iconAdd" name="add-circle-outline" (click)="addUserToPost(post)"></ion-icon>
+        <ion-icon *ngIf="alreadyAdded" class="iconAdd" name="add-circle" (click)="deleteUserToPost(post)"></ion-icon>
+
+        <a color="dark" class="post-users-counters" slot="end" [routerLink]="['/post', post._id, 'users']">{{ numUserInPost }}</a>
+
     </ion-item>
 
     <ion-item lines="none">

@@ -136,7 +136,7 @@ export class UsuarioService {
   async validaToken(): Promise<boolean> {
 
     await this.cargarToken();
-    console.log('validateToken', this.token);
+    //console.log('validateToken', this.token);
     if (!this.token ) {
       this.navCtrl.navigateRoot('/login');
       return Promise.resolve(false);
@@ -150,7 +150,6 @@ export class UsuarioService {
 
       this.http.get(`${ URL }/user/`, { headers })
         .subscribe( resp => {
-          console.log('validatetoken resp', resp);
           if ( resp['ok'] ) {
             this.usuario = resp['usuario'];
             resolve(true);

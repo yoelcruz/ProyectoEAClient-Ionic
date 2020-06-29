@@ -18,7 +18,6 @@ export class Tab1Page implements OnInit{
 
   ngOnInit() {
 
-    console.log('posts', this.posts.length);
     this.siguientes();
 
     this.postsService.nuevoPost

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, AfterViewInit, Output, EventEmitter } from '@angular/core';
 
 
 declare var mapboxgl: any;
@@ -10,8 +10,10 @@ declare var mapboxgl: any;
 })
 export class MapaComponent implements OnInit, AfterViewInit {
 
+  @Input() editable = false;
   @Input() coords: string;
   @ViewChild('mapa') mapa;
+  @Output() changeCoors = new EventEmitter<string>();
 
   constructor() { }
 
@@ -20,9 +22,6 @@ export class MapaComponent implements OnInit, AfterViewInit {
     this.ngAfterViewInit();
 
   }
-
-
-
 
   ngAfterViewInit() {
 
@@ -37,15 +36,26 @@ export class MapaComponent implements OnInit, AfterViewInit {
       container: this.mapa.nativeElement,
       style: 'mapbox://styles/mapbox/streets-v11',
       center: [ lng, lat ],
-      zoom: 15
+      zoom: 10
+      /* center: [ 1.75, 41.63 ]
+      zoom: 5.9 */
     });
-    const marker = new mapboxgl.Marker().setLngLat( [ lng, lat ] ).addTo( map );
+
+    // Añadir marcador desde la localización actual
+    const marker = new mapboxgl.Marker();
+    marker.setLngLat( [ lng, lat ] ).addTo( map );
+    // Añadir marker en una posición especifica
+    // const marker2 = new mapboxgl.Marker().setLngLat([2.04, 41.332]).addTo(map); // add the marker to the map
+
     // Añadir marker en el mapa con un clik
-    /* const marker2 = new mapboxgl.Marker().setLngLat([51, 60]).addTo(map); // add the marker to the map
-    map.on('click', function(e) {
-      console.log('A click event has occurred at ' + e.lngLat);
-      let marker3 = new mapboxgl.Marker().setLngLat(e.lngLat).addTo(map); // add the marker to the map
-    }); */
+    if (this.editable) {
+      map.on('click', (e) => {
+        marker.setLngLat(e.lngLat);
+        /* const marker3 = new mapboxgl.Marker().setLngLat(e.lngLat).addTo(map); // add the marker to the map */
+        const lngLat = e.lngLat.wrap();
+        this.changeCoors.emit(lngLat.lat + ',' + lngLat.lng);
+      });
+    }
     }, 1000);
 
     // Set an event listener

@@ -1,0 +1,26 @@
+<ion-header>
+    <ion-toolbar>
+
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="/"></ion-back-button>
+        </ion-buttons>
+        <ion-title>Usuarios añadidos</ion-title>
+
+    </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen>
+    <ion-list>
+
+        <ion-item *ngFor="let usuario of usuarios">
+            <ion-avatar slot="start">
+                <img src="/assets/avatars/{{ usuario.avatar }}">
+            </ion-avatar>
+            <ion-label>
+                <h2>{{ usuario.nombre }}</h2>
+                <h3>{{ usuario.email }}</h3>
+            </ion-label>
+        </ion-item>
+
+    </ion-list>
+</ion-content>

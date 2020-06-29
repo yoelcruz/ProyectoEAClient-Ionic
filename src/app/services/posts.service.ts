@@ -82,7 +82,17 @@ export class PostsService {
       'x-token': this.usuarioService.token
     });
 
-    return this.http.post<RespuestaAñadirUsuarioPost>(`${ URL }/posts/${ post._id }/addUser`, {},
+    return this.http.post<RespuestaPost>(`${ URL }/posts/${ post._id }/addUser`, {},
+            { headers });
+  }
+
+  deleteUser( post: Post ) {
+
+    const headers = new HttpHeaders({
+      'x-token': this.usuarioService.token
+    });
+
+    return this.http.post<RespuestaPost>(`${ URL }/posts/${ post._id }/deleteUser`, {},
             { headers });
   }
 

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PostsComponent } from './posts/posts.component';
 import { PostComponent } from './post/post.component';
@@ -19,7 +19,8 @@ import { RouterModule } from '@angular/router';
   ],
   exports: [
     PostsComponent,
-    AvatarSelectorComponent
+    AvatarSelectorComponent,
+    MapaComponent
   ],
   imports: [
     CommonModule,

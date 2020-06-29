@@ -47,6 +47,12 @@ export class Tab2Page {
 
   }
 
+  public updateCoords( coords: string) {
+    const[lat, lng] = coords.split(',');
+    console.log('updateCoords', lat, lng);
+    this.post.coords = coords;
+  }
+
   getGeo() {
 
     if ( !this.post.posicion ) {
